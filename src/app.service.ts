@@ -52,6 +52,9 @@ export class AppService {
         name_from_relation: update.name_from_relation,
         mds_id: update.mds_id,
         ref_id: update.ref_id,
+        quantity: update.quantity,
+        weight: update.weight,
+        portion: update.portion,
         tree_id: update.tree_id,
       });
     }
@@ -142,6 +145,9 @@ export class AppService {
         ref_id: item.ref_id,
         tree_id: item.tree_id,
         statusChange: item.statusChange ? item.statusChange : null,
+        quantity: item.quantity ? item.quantity : null,
+        weight: item.weight ? item.weight : null,
+        portion: item.portion ? item.portion : null,
       };
       result.push(newItem);
       if (item.children && item.children.length > 0) {

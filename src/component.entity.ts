@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Component {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   level: number;
@@ -18,11 +18,20 @@ export class Component {
   name_from_relation: string;
 
   @Column({ nullable: true })
-  mds_id: number;
+  mds_id: string;
 
   @Column({ nullable: true })
   ref_id: number;
 
   @Column()
-  tree_id: number;
+  quantity: string;
+
+  @Column()
+  weight: string;
+
+  @Column()
+  portion: string;
+
+  @Column()
+  tree_id: string;
 }
