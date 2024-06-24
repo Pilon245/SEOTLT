@@ -29,14 +29,18 @@ export class AppService {
     for (const created of mds) {
       try {
         await this.connection.query(
-          `INSERT INTO component (id, level, parent_id, name_no_mds, name_from_relation, mds_id, ref_id, tree_id) 
+          `INSERT INTO component (id, level, parent_id, name_no_mds, name_from_relation, mds_id, ref_id, tree_id,
+                       name, nodeType, nodePropsType, quantity, weight, portion)
             VALUES ('${created.id}', '${created.level}', '${created.parent_id}', '${created.name_no_mds}',
                     '${created.name_from_relation ? created.name_from_relation : null}',
                     '${created.mds_id ? created.mds_id : null}',
                     ${created.ref_id ? `'${created.ref_id}'` : null}, '${created.tree_id}',
                     '${created.name ? created.name : null}',
                     '${created.nodeType ? created.nodeType : null}',
-                    '${created.nodePropsType ? created.nodePropsType : null}')`,
+                    '${created.nodePropsType ? created.nodePropsType : null}',
+                    '${created.quantity ? created.quantity : null}',
+                    '${created.weight ? created.weight : null}',
+                    '${created.portion ? created.portion : null}')`,
         );
       } catch (e) {
         console.log('e', e);

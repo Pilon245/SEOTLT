@@ -24,13 +24,13 @@ export class Component {
   ref_id: number;
 
   @Column()
-  quantity: string;
+  quantity: number;
 
   @Column()
-  weight: string;
+  weight: number;
 
   @Column()
-  portion: string;
+  portion: number;
 
   @Column()
   tree_id: string;
