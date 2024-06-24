@@ -34,4 +34,13 @@ export class Component {
 
   @Column()
   tree_id: string;
+
+  @Column()
+  name: string;
+
+  @Column()
+  nodeType: string;
+
+  @Column()
+  nodePropsType: string;
 }

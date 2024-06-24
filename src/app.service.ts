@@ -33,7 +33,10 @@ export class AppService {
             VALUES ('${created.id}', '${created.level}', '${created.parent_id}', '${created.name_no_mds}',
                     '${created.name_from_relation ? created.name_from_relation : null}',
                     '${created.mds_id ? created.mds_id : null}',
-                    ${created.ref_id ? `'${created.ref_id}'` : null}, '${created.tree_id}')`,
+                    ${created.ref_id ? `'${created.ref_id}'` : null}, '${created.tree_id}',
+                    '${created.name ? created.name : null}',
+                    '${created.nodeType ? created.nodeType : null}',
+                    '${created.nodePropsType ? created.nodePropsType : null}')`,
         );
       } catch (e) {
         console.log('e', e);
@@ -56,6 +59,9 @@ export class AppService {
         weight: update.weight,
         portion: update.portion,
         tree_id: update.tree_id,
+        name: update.name,
+        nodeType: update.nodeType,
+        nodePropsType: update.nodePropsType,
       });
     }
     for (const deleted of deleteMds) {
@@ -148,6 +154,9 @@ export class AppService {
         quantity: item.quantity ? item.quantity : null,
         weight: item.weight ? item.weight : null,
         portion: item.portion ? item.portion : null,
+        name: item.name ? item.name : null,
+        nodeType: item.nodeType ? item.nodeType : null,
+        nodePropsType: item.nodePropsType ? item.nodePropsType : null,
       };
       result.push(newItem);
       if (item.children && item.children.length > 0) {
