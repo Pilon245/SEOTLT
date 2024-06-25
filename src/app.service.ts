@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
+import { Column, Connection, Repository } from 'typeorm';
 import { Component } from './component.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface Item {
   id: string;
@@ -11,6 +12,12 @@ export interface Item {
   name_from_relation: string | null;
   mds_id: string | null;
   ref_id: number | null;
+  quantity: number;
+  weight: number;
+  portion: number;
+  name: string;
+  nodeType: string;
+  nodePropsType: string;
   tree_id: string;
   children?: Item[];
 }
@@ -130,13 +137,16 @@ export class AppService {
     function recursiveSearch(node) {
       if (node.mds_id !== null && node.children.length === 0) {
         const arr = tree.filter((elem) => elem.tree_id === node.mds_id);
-        node.children.push(...arr[0]?.children);
+        if (arr[0]?.children) {
+          node.children?.push(...arr[0]?.children);
+        }
       }
       if (node.children) {
         node.children.forEach((child) => recursiveSearch(child));
       }
     }
 
+    console.log('tree', tree);
     tree.forEach((item) => recursiveSearch(item));
 
     return tree;
