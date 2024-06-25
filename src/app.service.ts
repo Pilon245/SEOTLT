@@ -16,8 +16,8 @@ export interface Item {
   weight: number;
   portion: number;
   name: string;
-  nodeType: string;
-  nodePropsType: string;
+  nodetype: string;
+  nodepropstype: string;
   tree_id: string;
   children?: Item[];
 }
@@ -37,14 +37,14 @@ export class AppService {
       try {
         await this.connection.query(
           `INSERT INTO component (id, level, parent_id, name_no_mds, name_from_relation, mds_id, ref_id, tree_id,
-                       name, nodeType, nodePropsType, quantity, weight, portion)
+                       name, nodetype, nodepropstype, quantity, weight, portion)
             VALUES ('${created.id}', '${created.level}', '${created.parent_id}', '${created.name_no_mds}',
                     '${created.name_from_relation ? created.name_from_relation : null}',
                     '${created.mds_id ? created.mds_id : null}',
                     ${created.ref_id ? `'${created.ref_id}'` : null}, '${created.tree_id}',
                     '${created.name ? created.name : null}',
-                    '${created.nodeType ? created.nodeType : null}',
-                    '${created.nodePropsType ? created.nodePropsType : null}',
+                    '${created.nodetype ? created.nodetype : null}',
+                    '${created.nodepropstype ? created.nodepropstype : null}',
                     '${created.quantity ? created.quantity : null}',
                     '${created.weight ? created.weight : null}',
                     '${created.portion ? created.portion : null}')`,
@@ -71,8 +71,8 @@ export class AppService {
         portion: update.portion,
         tree_id: update.tree_id,
         name: update.name,
-        nodeType: update.nodeType,
-        nodePropsType: update.nodePropsType,
+        nodetype: update.nodetype,
+        nodepropstype: update.nodepropstype,
       });
     }
     for (const deleted of deleteMds) {
@@ -169,8 +169,8 @@ export class AppService {
         weight: item.weight ? item.weight : null,
         portion: item.portion ? item.portion : null,
         name: item.name ? item.name : null,
-        nodeType: item.nodeType ? item.nodeType : null,
-        nodePropsType: item.nodePropsType ? item.nodePropsType : null,
+        nodetype: item.nodetype ? item.nodetype : null,
+        nodepropstype: item.nodepropstype ? item.nodepropstype : null,
       };
       result.push(newItem);
       if (item.children && item.children.length > 0) {

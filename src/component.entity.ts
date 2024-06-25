@@ -39,8 +39,8 @@ export class Component {
   name: string;
 
   @Column()
-  nodeType: string;
+  nodetype: string;
 
   @Column()
-  nodePropsType: string;
+  nodepropstype: string;
 }
