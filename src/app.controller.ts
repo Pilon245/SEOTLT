@@ -1,17 +1,17 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { AppService, Item } from './app.service';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/mds')
-  async getMds(): Promise<Item[]> {
+  async getMds() {
     return await this.appService.getMds();
   }
 
   @Get('/mds/:id')
-  async getMdsById(@Param() param: { id: string }): Promise<Item[]> {
+  async getMdsById(@Param() param: { id: string }) {
     return await this.appService.getMdsById(param.id);
   }
 

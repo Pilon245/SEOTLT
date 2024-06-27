@@ -76,7 +76,32 @@ export class AppService {
       });
     }
     for (const deleted of deleteMds) {
-      await this.componentRepository.delete(deleted.id);
+      const node = await this.componentRepository.findOneBy({ id: deleted.id });
+      if (node.level === 1) {
+        const related_node = await this.componentRepository.findBy({
+          mds_id: node.tree_id,
+        });
+        for (const item of related_node) {
+          await this.componentRepository.update(item.id, {
+            mds_id: null,
+          });
+        }
+      }
+      await this.connection.query(`
+      WITH RECURSIVE tree AS (
+    SELECT id
+    FROM component
+    WHERE id = '${deleted.id}'
+
+    UNION ALL
+
+    SELECT t.id
+    FROM component t
+             INNER JOIN tree tr ON t.parent_id = tr.id
+    )
+    DELETE FROM component
+    WHERE id IN (SELECT id FROM tree);`);
+      // await this.componentRepository.delete(deleted.id);
     }
   }
 
@@ -97,9 +122,11 @@ export class AppService {
         FROM node_links;`,
     );
     const hierarchicalData = this.buildHierarchy(result);
-    return hierarchicalData.filter(
+    const ondeMds = hierarchicalData.filter(
       (elem) => elem.tree_id === id && elem.level === 1,
     );
+
+    return { tree: ondeMds };
   }
   async getMds() {
     const result = await this.connection.query(
@@ -117,7 +144,7 @@ export class AppService {
         FROM node_links;`,
     );
     const hierarchicalData = this.buildHierarchy(result);
-    return hierarchicalData;
+    return { mds: hierarchicalData };
   }
   buildHierarchy(data: Item[]): Item[] {
     const tree: Item[] = [];
