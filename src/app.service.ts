@@ -122,11 +122,15 @@ export class AppService {
         FROM node_links;`,
     );
     const hierarchicalData = this.buildHierarchy(result);
-    const ondeMds = hierarchicalData.filter(
+    const oneMds = hierarchicalData.filter(
       (elem) => elem.tree_id === id && elem.level === 1,
     );
-
-    return { tree: ondeMds };
+    const mds = await this.connection.query(`
+              SELECT * FROM mds m
+            INNER JOIN supplier ON supplier.id = m.supplier_id
+--             INNER JOIN contact_person ON contact_person.supplier_id = supplier.id
+            WHERE m.id = '${id}'`);
+    return { mds: mds, tree: oneMds };
   }
   async getMds() {
     const result = await this.connection.query(
@@ -173,7 +177,6 @@ export class AppService {
       }
     }
 
-    console.log('tree', tree);
     tree.forEach((item) => recursiveSearch(item));
 
     return tree;
